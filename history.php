@@ -91,52 +91,60 @@ if (isset($_SESSION['status']) && $_SESSION['status'] == 'login') {
 											</thead>
 											<tbody>
 												<?php
-													foreach ($transactions as $key => $trx) {
+												
+												if (count($transactions) > 0) { ?>
+													<?php
+														foreach ($transactions as $key => $trx) {
+														?>
+														<tr>
+															<th class="text-center" scope="row"><?php echo $key+1 ?></th>
+															<td>
+																<?php echo $trx['bank_code'] ?><br>
+																<small class="text-muted"><?php echo $trx['account_number'] ?> - <?php echo $trx['beneficiary_name'] ?></small>
+															</td>
+															<td>Rp<?php echo number_format($trx['amount']) ?></td>
+															<td>Rp<?php echo number_format($trx['fee']) ?></td>
+															<td><?php echo $trx['remark'] ?></td>
+															<td class="text-center">
+																<?php
+																if ($trx['status'] == 'PENDING') { ?>
+																	<span class="badge badge-warning">PENDING</span>
+																<?php
+																} else {?>
+																	<span class="badge badge-success"><?php echo $trx['status'] ?></span>
+																<?php
+																}
+																?>
+															</td>
+															<td>
+																<?php
+																if ($trx['time_served'] == NULL) { ?>
+																	-
+																<?php
+																} else {?>
+																	<?php echo $trx['time_served'] ?>
+																<?php
+																}
+																?>
+															</td>
+															<td class="text-center">
+																<?php
+																if ($trx['receipt'] == '') { ?>
+																	<a href="/withdraw.php?status=check&id=<?php echo $trx['slightly_id'] ?>" class="btn btn-warning">Check</a>
+																<?php
+																} else {?>
+																	<a target="_blank" href="<?php echo $trx['receipt'] ?>" class="btn btn-success">Receipt</a>
+																<?php
+																}
+																?>
+															</td>
+														</tr>
+													<?php
+													}
 													?>
-													<tr>
-														<th class="text-center" scope="row"><?php echo $key+1 ?></th>
-														<td>
-															<?php echo $trx['bank_code'] ?><br>
-															<small class="text-muted"><?php echo $trx['account_number'] ?> - <?php echo $trx['beneficiary_name'] ?></small>
-														</td>
-														<td>Rp<?php echo number_format($trx['amount']) ?></td>
-														<td>Rp<?php echo number_format($trx['fee']) ?></td>
-														<td><?php echo $trx['remark'] ?></td>
-														<td class="text-center">
-															<?php
-															if ($trx['status'] == 'PENDING') { ?>
-																<span class="badge badge-warning">PENDING</span>
-															<?php
-															} else {?>
-																<span class="badge badge-success"><?php echo $trx['status'] ?></span>
-															<?php
-															}
-															?>
-														</td>
-														<td>
-															<?php
-															if ($trx['time_served'] == NULL) { ?>
-																-
-															<?php
-															} else {?>
-																<?php echo $trx['time_served'] ?>
-															<?php
-															}
-															?>
-														</td>
-														<td class="text-center">
-															<?php
-															if ($trx['receipt'] == '') { ?>
-																<a href="/withdraw.php?status=check&id=<?php echo $trx['slightly_id'] ?>" class="btn btn-warning">Check</a>
-															<?php
-															} else {?>
-																<a target="_blank" href="<?php echo $trx['receipt'] ?>" class="btn btn-success">Receipt</a>
-															<?php
-															}
-															?>
-														</td>
-													</tr>
-												<?php
+													<?php
+												} else {
+													echo '<tr><td colspan="8" class="text-center">Tidak ada data</td></tr>';
 												}
 												?>
 											</tbody>
