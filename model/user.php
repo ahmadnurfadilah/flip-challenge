@@ -6,12 +6,29 @@ class User {
     public $name;
     public $email;
     public $password;
+    public $balance;
     public $created_at;
     public $updated_at;
 
     public function __construct($conn)
     {
         $this->conn = $conn;
+    }
+
+    public function getBalance($id)
+    {
+        $sql = "SELECT balance FROM sellers WHERE id = '$id'";
+        $result = $this->conn->query($sql);
+        if ($result->num_rows > 0) {
+            return $result->fetch_assoc()['balance'];
+        }
+        return 0;
+    }
+
+    public function decBalance($uid, $amount)
+    {
+        $sql = "UPDATE sellers SET balance = balance - '$amount' WHERE id = '$uid'";
+        $this->conn->query($sql);
     }
 
     public function login()

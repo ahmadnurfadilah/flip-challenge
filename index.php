@@ -57,6 +57,15 @@ require 'core/config.php';
 									<h3>Withdraw</h3>
 								</div>
 								<div class="card-body">
+									<?php
+									if (isset($_SESSION['error'])) { ?>
+										<div class="alert alert-danger">
+											<?php echo $_SESSION['error'] ?>
+										</div>
+									<?php
+										unset($_SESSION["error"]);
+									}
+									?>
 									<form action="/withdraw.php" method="post">
 										<div class="form-group">
 											<label for="bank_code">Bank</label>
