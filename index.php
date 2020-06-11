@@ -32,7 +32,7 @@ require 'core/config.php';
 					<form class="form-inline my-2 my-lg-0">
 						<?php
 						if (isset($_SESSION['status']) && $_SESSION['status'] == 'login') { ?>
-							<a href="/logout.php" class="btn btn-warning my-2 my-sm-0" type="submit">Sign Out</a>
+							<a href="/auth/logout.php" class="btn btn-warning my-2 my-sm-0" type="submit">Sign Out</a>
 						<?php
 						} else { ?>
 							<a href="/" class="btn btn-warning my-2 my-sm-0" type="submit">Sign In</a>
@@ -91,14 +91,23 @@ require 'core/config.php';
 									<h3>Sign In</h3>
 								</div>
 								<div class="card-body">
-									<form action="/login.php" method="post">
+									<?php
+									if (isset($_SESSION['error'])) { ?>
+										<div class="alert alert-danger">
+											<?php echo $_SESSION['error'] ?>
+										</div>
+									<?php
+										unset($_SESSION["error"]);
+									}
+									?>
+									<form action="/auth/login.php" method="post">
 										<div class="form-group">
 											<label for="email">Email</label>
-											<input type="text" name="email" id="email" class="form-control" value="user1@gmail.com">
+											<input type="text" name="email" id="email" class="form-control" value="user1@gmail.com" required>
 										</div>
 										<div class="form-group">
 											<label for="password">Password</label>
-											<input type="password" name="password" id="password" class="form-control" value="user1">
+											<input type="password" name="password" id="password" class="form-control" value="user1" required>
 										</div>
 										<button type="submit" class="btn btn-warning px-4">Sign In</button>
 									</form>
